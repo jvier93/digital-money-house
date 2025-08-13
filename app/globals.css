@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors */
+
+  --color-primary: #201f22;
+  --color-accent: #c1fd35;
+  --color-secondary: #3a393e;
+  --color-light: #eeeaea;
+  --color-error: #ee3838;
+  /* Typography */
+  --font-sans: var(--font-open-sans);
+  /* Sizes */
+  --text-h1: 24pt;
+  --text-h2: 20pt;
+  --text-h3: 16pt;
+  --text-h4: 14pt;
+
+  --text-btn-1: 14pt;
+  --text-btn-2: 16pt;
+  --text-btn-3: 16pt;
+
+  --text-body-1: 14pt;
+  --text-body-2: 12pt;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* ===== Dark mode ===== */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* :root {
+ 
+  } */
 }
 
+/* ===== Integración con Tailwind ===== */
+@theme {
+  --color-primary: var(--color-primary);
+  --color-accent: var(--color-accent);
+  --color-secondary: var(--color-secondary);
+  --color-light: var(--color-light);
+  --color-error: var(--color-error);
+
+  --font-sans: var(--font-open-sans);
+
+  --text-h1: var(--text-h1);
+  --text-h2: var(--text-h2);
+  --text-h3: var(--text-h3);
+  --text-h4: var(--text-h4);
+
+  --text-btn-1: var(--text-btn-1);
+  --text-btn-2: var(--text-btn-2);
+  --text-btn-3: var(--text-btn-3);
+
+  --text-body-1: var(--text-body-1);
+  --text-body-2: var(--text-body-2);
+}
+
+/* ===== Estilos base ===== */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* ===== Componentes reutilizables ===== */
+@layer components {
+  /* Headings */
+  .heading-1 {
+    @apply font-bold text-h1 text-primary;
+  }
+  .heading-2 {
+    @apply font-bold text-h2 text-primary;
+  }
+  .heading-3 {
+    @apply font-bold text-h3 text-primary;
+  }
+  .heading-4 {
+    @apply font-bold text-h4 text-primary;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply font-bold text-btn-1 bg-primary text-white px-4 py-2 rounded;
+  }
+  .btn-secondary {
+    @apply font-bold text-btn-2 bg-accent text-primary px-4 py-2 rounded;
+  }
+  .btn-link {
+    @apply font-semibold underline text-btn-3 text-primary;
+  }
+
+  /* Text */
+  .text-body-1 {
+    @apply font-medium text-body-1 text-primary;
+  }
+  .text-body-2 {
+    @apply font-medium text-body-2 text-primary;
+  }
+  .text-error {
+    @apply font-normal text-body-2 text-error;
+  }
 }
