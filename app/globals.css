@@ -11,17 +11,17 @@
   /* Typography */
   --font-sans: var(--font-open-sans);
   /* Sizes */
-  --text-h1: 24pt;
+  --text-h1: 24px;
   --text-h2: 20pt;
-  --text-h3: 16pt;
-  --text-h4: 14pt;
+  --text-h3: 16px;
+  --text-h4: 14px;
 
-  --text-btn-1: 14pt;
-  --text-btn-2: 16pt;
-  --text-btn-3: 16pt;
+  --text-btn-1: 14px;
+  --text-btn-2: 16px;
+  --text-btn-3: 16px;
 
-  --text-body-1: 14pt;
-  --text-body-2: 12pt;
+  --text-body-1: 14px;
+  --text-body-2: 12px;
 }
 
 /* ===== Dark mode ===== */
@@ -75,7 +75,7 @@ body {
     @apply font-bold text-h4 text-primary;
   }
 
-  /* Buttons */
+  /* Buttons
   .btn-primary {
     @apply font-bold text-btn-1 bg-primary text-white px-4 py-2 rounded;
   }
@@ -84,7 +84,7 @@ body {
   }
   .btn-link {
     @apply font-semibold underline text-btn-3 text-primary;
-  }
+  } */
 
   /* Text */
   .text-body-1 {
