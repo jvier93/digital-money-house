@@ -3,6 +3,8 @@ import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/layout/Navbar";
 
+import Footer from "@/app/components/layout/Footer";
+
 const openSans = Open_Sans({
   variable: "--font-open-sans",
   subsets: ["latin"],
@@ -22,12 +24,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${openSans.variable} antialiased`}>
+    <html lang="es">
+      <body
+        className={`${openSans.variable} antialiased min-h-[100dvh] flex flex-col`}
+      >
         <header>
           <Navbar />
         </header>
         {children}
+        <Footer />
       </body>
     </html>
   );

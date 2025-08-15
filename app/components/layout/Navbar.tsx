@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="w-full bg-primary px-8 py-4 flex items-center justify-between">
+    <nav className="w-full bg-primary p-4 flex items-center justify-between">
       {/* Logo */}
       <Link href="/">
         <Image
@@ -12,20 +12,20 @@ export default function Navbar() {
           width={90}
           height={40}
           priority
-          className="h-10 w-auto"
+          className="h-8 w-auto"
         />
       </Link>
       {/* Buttons */}
       <div className="flex gap-3">
         <Link
           href="/login"
-          className="px-6 py-2 rounded bg-transparent border border-accent text-accent font-semibold transition hover:bg-accent hover:text-primary"
+          className="px-6 py-2 rounded bg-primary text-btn-1 font-bold border border-accent text-accent  "
         >
           Ingresar
         </Link>
         <Link
           href="/register"
-          className="px-6 py-2 rounded bg-accent text-primary font-bold transition hover:bg-accent/90"
+          className="px-6 py-2 rounded bg-accent text-btn-1 font-bold "
         >
           Crear cuenta
         </Link>
