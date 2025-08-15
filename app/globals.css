@@ -12,7 +12,7 @@
   --font-sans: var(--font-open-sans);
   /* Sizes */
   --text-h1: 24px;
-  --text-h2: 20pt;
+  --text-h2: 20px;
   --text-h3: 16px;
   --text-h4: 14px;
 
@@ -63,37 +63,34 @@ body {
 @layer components {
   /* Headings */
   .heading-1 {
-    @apply font-bold text-h1 text-primary;
+    @apply text-h1 font-bold;
   }
   .heading-2 {
-    @apply font-bold text-h2 text-primary;
+    @apply text-h2 font-bold;
   }
   .heading-3 {
-    @apply font-bold text-h3 text-primary;
+    @apply text-h3 font-bold;
   }
   .heading-4 {
-    @apply font-bold text-h4 text-primary;
+    @apply text-h4 font-bold;
   }
 
-  /* Buttons
-  .btn-primary {
-    @apply font-bold text-btn-1 bg-primary text-white px-4 py-2 rounded;
+  /* Buttons */
+  .btn-1 {
+    @apply text-btn-1 bg-primary rounded px-4 py-2 font-bold text-white;
   }
-  .btn-secondary {
-    @apply font-bold text-btn-2 bg-accent text-primary px-4 py-2 rounded;
+  .btn-2 {
+    @apply text-btn-2 font-bold;
   }
-  .btn-link {
-    @apply font-semibold underline text-btn-3 text-primary;
-  } */
 
   /* Text */
   .text-body-1 {
-    @apply font-medium text-body-1 text-primary;
+    @apply text-body-1 text-primary font-medium;
   }
   .text-body-2 {
-    @apply font-medium text-body-2 text-primary;
+    @apply text-body-2 text-primary font-medium;
   }
   .text-error {
-    @apply font-normal text-body-2 text-error;
+    @apply text-body-1 text-error font-normal italic;
   }
 }
