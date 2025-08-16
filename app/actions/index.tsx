@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { FormState } from "../components/auth/signup-form";
+import { signOut } from "@/auth";
 
 const schema = z
   .object({
@@ -115,4 +116,8 @@ export async function signupAction(
       success: false,
     };
   }
+}
+
+export async function logoutAction() {
+  await signOut({ redirectTo: "/" });
 }
