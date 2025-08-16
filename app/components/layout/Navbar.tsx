@@ -1,9 +1,14 @@
+import { logoutAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
+interface NavbarProps {
+  showSignInButton: boolean;
+  isLoggedIn: boolean;
+}
 
-export default function Navbar() {
+export default function Navbar({ showSignInButton, isLoggedIn }: NavbarProps) {
   return (
-    <nav className="w-full bg-primary p-4 flex items-center justify-between">
+    <nav className="bg-primary flex w-full items-center justify-between p-4">
       {/* Logo */}
       <Link href="/">
         <Image
@@ -15,20 +20,32 @@ export default function Navbar() {
           className="h-8 w-auto"
         />
       </Link>
-      {/* Buttons */}
+
       <div className="flex gap-3">
-        <Link
-          href="/login"
-          className="px-6 py-2 rounded bg-primary text-btn-1 font-bold border border-accent text-accent  "
-        >
-          Ingresar
-        </Link>
-        <Link
-          href="/register"
-          className="px-6 py-2 rounded bg-accent text-btn-1 font-bold "
-        >
-          Crear cuenta
-        </Link>
+        {isLoggedIn && (
+          <button
+            onClick={logoutAction}
+            className="bg-primary text-btn-1 border-accent text-accent rounded border px-6 py-2 font-bold"
+          >
+            Cerrar sesión
+          </button>
+        )}
+        {showSignInButton && !isLoggedIn && (
+          <Link
+            href="/signin"
+            className="bg-primary text-btn-1 border-accent text-accent rounded border px-6 py-2 font-bold"
+          >
+            Ingresar
+          </Link>
+        )}
+        {!isLoggedIn && (
+          <Link
+            href="/signup"
+            className="bg-accent text-btn-1 rounded px-6 py-2 font-bold"
+          >
+            Crear cuenta
+          </Link>
+        )}
       </div>
     </nav>
   );
