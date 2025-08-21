@@ -1,8 +1,8 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { signupAction, SignupValues } from "@/app/actions";
-import { InputField } from "@/app/components/auth/input-field";
+import { signupAction, SignupValues } from "@/actions";
+import { InputField } from "@/components/auth/input-field";
 import { useRouter } from "next/navigation";
 
 export type FormState = {

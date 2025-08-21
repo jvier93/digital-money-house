@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
-import { auth } from "@/auth";
-import { headers } from "next/headers";
 
-import Navbar from "@/app/components/layout/navbar";
+import Navbar from "@/components/layout/navbar";
 
-import Footer from "@/app/components/layout/footer";
+import Footer from "@/components/layout/footer";
+import { SidebarProvider } from "@/contexts/sidebar-context";
+import { SessionProvider } from "next-auth/react";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -26,25 +26,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
-  //Same that usePathname in client components but for server components
-  const headersList = await headers();
-  const currentPath = headersList.get("x-invoke-path") || "/";
-
-  // Show sign-in button depending on the current path
-  const showSignInButton = currentPath === "/" || currentPath === "/signup";
-
   return (
     <html lang="es">
       <body
         className={`${openSans.variable} flex min-h-[100dvh] flex-col antialiased`}
       >
-        <header>
-          <Navbar showSignInButton={showSignInButton} isLoggedIn={!!session} />
-        </header>
-        {children}
-        <Footer />
+        <SessionProvider>
+          <SidebarProvider>
+            <header>
+              <Navbar />
+            </header>
+            {children}
+            <Footer />
+          </SidebarProvider>
+        </SessionProvider>
       </body>
     </html>
   );
