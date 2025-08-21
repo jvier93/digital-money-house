@@ -1,15 +1,23 @@
 @import "tailwindcss";
 
-:root {
-  /* Colors */
+/* ===== Dark mode ===== */
+@media (prefers-color-scheme: dark) {
+  /* :root {
+ 
+  } */
+}
 
+@theme {
+  /* Colors */
   --color-primary: #201f22;
   --color-accent: #c1fd35;
   --color-secondary: #3a393e;
   --color-light: #eeeaea;
   --color-error: #ee3838;
+
   /* Typography */
   --font-sans: var(--font-open-sans);
+
   /* Sizes */
   --text-h1: 24px;
   --text-h2: 20px;
@@ -19,47 +27,16 @@
   --text-btn-1: 14px;
   --text-btn-2: 16px;
   --text-btn-3: 16px;
+  --text-btn-4: 17px;
 
   --text-body-1: 14px;
   --text-body-2: 12px;
 }
 
-/* ===== Dark mode ===== */
-@media (prefers-color-scheme: dark) {
-  /* :root {
- 
-  } */
-}
-
-/* ===== Integración con Tailwind ===== */
-@theme {
-  --color-primary: var(--color-primary);
-  --color-accent: var(--color-accent);
-  --color-secondary: var(--color-secondary);
-  --color-light: var(--color-light);
-  --color-error: var(--color-error);
-
-  --font-sans: var(--font-open-sans);
-
-  --text-h1: var(--text-h1);
-  --text-h2: var(--text-h2);
-  --text-h3: var(--text-h3);
-  --text-h4: var(--text-h4);
-
-  --text-btn-1: var(--text-btn-1);
-  --text-btn-2: var(--text-btn-2);
-  --text-btn-3: var(--text-btn-3);
-
-  --text-body-1: var(--text-body-1);
-  --text-body-2: var(--text-body-2);
-}
-
-/* ===== Estilos base ===== */
 body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* ===== Componentes reutilizables ===== */
 @layer components {
   /* Headings */
   .heading-1 {
@@ -81,6 +58,10 @@ body {
   }
   .btn-2 {
     @apply text-btn-2 font-bold;
+  }
+
+  .btn-4 {
+    @apply text-btn-4 font-semibold;
   }
 
   /* Text */

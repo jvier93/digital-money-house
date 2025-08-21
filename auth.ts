@@ -3,6 +3,7 @@ import NextAuth, { type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { object, string } from "zod";
 import "next-auth/jwt";
+import { getAccountData, getUserDetails, login } from "@/services";
 
 export const signInSchema = object({
   email: string().email("El correo electrónico no es válido"),
@@ -26,6 +27,7 @@ declare module "next-auth" {
   interface User {
     token?: string;
     email: string;
+    name: string;
   }
 }
 
@@ -48,21 +50,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const { email, password } =
             await signInSchema.parseAsync(credentials);
 
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: email,
-              password: password,
-            }),
-          });
+          const token = await login(email, password);
+          if (!token) return null;
+          const accountData = await getAccountData(token);
+          if (!accountData) return null;
+          const userDetails = await getUserDetails(accountData.user_id, token);
+          if (!userDetails) return null;
 
-          if (!res.ok) return null;
-
-          const data = await res.json();
           return {
             email: email,
-            token: data.token,
+            name: `${userDetails.firstname} ${userDetails.lastname}`,
+            token: token,
           };
         } catch {
           return null;

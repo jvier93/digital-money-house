@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { InputField } from "@/app/components/auth/input-field";
+import { InputField } from "@/components/auth/input-field";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { set } from "zod";
