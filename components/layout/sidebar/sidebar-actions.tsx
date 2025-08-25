@@ -20,7 +20,7 @@ const SidebarActions = ({ mobile, onClose }: SidebarActionsProps) => {
     { name: "Tarjetas", href: "/dashboard/cards" },
   ];
   return (
-    <nav className="bg-accent flex h-full flex-col gap-2 p-4 px-12">
+    <nav className="bg-accent flex h-full flex-col gap-2 p-4 px-12 md:px-6">
       {links.map((link) => (
         <Link
           key={link.name}
@@ -29,7 +29,7 @@ const SidebarActions = ({ mobile, onClose }: SidebarActionsProps) => {
             {
               "font-extrabold": pathname === link.href,
             },
-            "text-primary btn-4 py-2",
+            "text-primary text-btn-4 py-2",
           )}
           onClick={mobile ? onClose : undefined}
         >
@@ -39,7 +39,7 @@ const SidebarActions = ({ mobile, onClose }: SidebarActionsProps) => {
 
       <button
         onClick={() => signOut()}
-        className="text-primary/50 btn-4 rounded-lg py-2 text-left"
+        className="text-primary/50 text-btn-4 rounded-lg py-2 text-left"
       >
         Cerrar sesión
       </button>

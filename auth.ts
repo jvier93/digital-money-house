@@ -18,22 +18,32 @@ export const signInSchema = object({
 
 declare module "next-auth" {
   interface Session {
-    accessToken?: string;
     user: {
-      token?: string;
+      id: string;
+      accountId: number;
+      token: string;
+      firstName: string;
+      lastName: string;
     } & DefaultSession["user"];
   }
 
   interface User {
+    id: number;
+    accountId: number;
     token?: string;
     email: string;
-    name: string;
+    firstName: string;
+    lastName: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     accessToken?: string;
+    id: number;
+    accountId: number;
+    firstName: string;
+    lastName: string;
   }
 }
 
@@ -58,8 +68,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!userDetails) return null;
 
           return {
+            id: userDetails.id,
+            accountId: accountData.id,
             email: email,
-            name: `${userDetails.firstname} ${userDetails.lastname}`,
+            firstName: userDetails.firstname,
+            lastName: userDetails.lastname,
             token: token,
           };
         } catch {
@@ -72,14 +85,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/signin",
   },
   session: { strategy: "jwt" },
+  jwt: {
+    maxAge: 2 * 60 * 60,
+  },
   callbacks: {
     async jwt({ token, user }) {
-      if (user?.token) token.accessToken = user.token;
+      if (user) {
+        token.accessToken = user.token;
+        token.id = user.id as number;
+        token.accountId = user.accountId as number;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+      }
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          accountId: token.accountId,
+          token: token.accessToken,
+          firstName: token.firstName,
+          lastName: token.lastName,
+        },
+      };
     },
   },
 });

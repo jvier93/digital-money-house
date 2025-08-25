@@ -8,6 +8,7 @@ type AccountDataResponse = {
   available_amount: number;
 };
 type UserDetailsResponse = {
+  id: number;
   email: string;
   firstname: string;
   lastname: string;
@@ -64,4 +65,54 @@ export async function getUserDetails(
   if (!res.ok) throw new Error("Failed to fetch user details");
 
   return res.json();
+}
+export type Transaction = {
+  id: number;
+  account_id: number;
+  type: string;
+  description: string;
+  origin: string;
+  destination: string;
+  amount: number;
+  dated: string;
+};
+
+export async function getAccountActivity(
+  accountId: number,
+  token: string,
+  options?: {
+    sortByDate?: "asc" | "desc";
+    limit?: number;
+  },
+): Promise<Transaction[]> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/accounts/${accountId}/activity`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+    },
+  );
+
+  if (!res.ok) throw new Error("Failed to fetch account activity");
+
+  const data: Transaction[] = await res.json();
+
+  let result = Array.isArray(data) ? data : [];
+
+  if (options?.sortByDate) {
+    result = result.sort((a, b) =>
+      options.sortByDate === "desc"
+        ? new Date(b.dated).getTime() - new Date(a.dated).getTime()
+        : new Date(a.dated).getTime() - new Date(b.dated).getTime(),
+    );
+  }
+
+  if (options?.limit) {
+    result = result.slice(0, options.limit);
+  }
+
+  return result;
 }

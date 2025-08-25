@@ -9,12 +9,12 @@ export default function DashboardLayout({
   const { isOpen, close } = useSidebar();
 
   return (
-    <div className="flex h-screen">
-      <aside className="hidden w-2/12 flex-col bg-gray-900 text-white md:flex">
+    <div className="flex flex-1">
+      <aside className="hidden w-3/12 flex-col bg-gray-900 text-white md:flex lg:w-2/12">
         <Sidebar />
       </aside>
 
-      <main className="flex-1 overflow-y-auto p-4">{children}</main>
+      {children}
 
       {/* Drawer mobile */}
       {isOpen && (
