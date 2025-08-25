@@ -18,7 +18,9 @@ const SidebarHeader = ({ onClose }: SidebarHeaderProps) => {
 
       <div className="text-accent heading-3 px-12 pb-6">
         <h2>Hola,</h2>
-        <p>{session?.user?.name}</p>
+        <p>
+          {session?.user.firstName} {session?.user.lastName}
+        </p>
       </div>
     </header>
   );

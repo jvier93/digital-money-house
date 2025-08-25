@@ -53,23 +53,27 @@ body {
   }
 
   /* Buttons */
-  .btn-1 {
-    @apply text-btn-1 bg-primary rounded px-4 py-2 font-bold text-white;
+  .text-btn-1 {
+    @apply text-btn-1 text-primary font-bold;
   }
-  .btn-2 {
+  .text-btn-2 {
     @apply text-btn-2 font-bold;
   }
 
-  .btn-4 {
+  .text-btn-3 {
+    @apply text-btn-3 font-semibold underline;
+  }
+
+  .text-btn-4 {
     @apply text-btn-4 font-semibold;
   }
 
   /* Text */
   .text-body-1 {
-    @apply text-body-1 text-primary font-medium;
+    @apply text-body-1 font-normal;
   }
   .text-body-2 {
-    @apply text-body-2 text-primary font-medium;
+    @apply text-body-2 font-normal;
   }
   .text-error {
     @apply text-body-1 text-error font-normal italic;

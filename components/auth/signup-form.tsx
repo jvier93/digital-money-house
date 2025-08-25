@@ -66,7 +66,7 @@ export function SignupForm() {
       {state.errors.api && <p className="text-error">{state.errors.api}</p>}
       <button
         type="submit"
-        className="text-primary btn-2 bg-accent mt-2 w-80 rounded-lg px-6 py-3"
+        className="text-primary text-btn-2 bg-accent mt-2 w-80 rounded-lg px-6 py-3"
       >
         Crear cuenta
       </button>

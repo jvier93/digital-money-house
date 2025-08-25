@@ -21,14 +21,14 @@ export default function NavbarActions({ isLoggedIn }: NavbarActionsProps) {
     <div className="flex gap-3">
       {isLoggedIn && pathname !== "/" && (
         <button onClick={toggle} className="text-accent md:hidden">
-          <Menu className="h-6 w-6" />
+          <Menu className="h-8 w-8" />
         </button>
       )}
 
       {showSignIn && (
         <Link
           href="/signin"
-          className="bg-primary text-btn-1 border-accent text-accent rounded border px-6 py-2 font-bold"
+          className="bg-primary text-text-btn-1 border-accent text-accent rounded border px-6 py-2 font-bold"
         >
           Ingresar
         </Link>
@@ -37,7 +37,7 @@ export default function NavbarActions({ isLoggedIn }: NavbarActionsProps) {
       {showSignUp && (
         <Link
           href="/signup"
-          className="bg-accent text-btn-1 rounded px-6 py-2 font-bold"
+          className="bg-accent text-text-btn-1 rounded px-6 py-2 font-bold"
         >
           Crear cuenta
         </Link>

@@ -18,7 +18,7 @@ const page = () => {
       <Link
         href="/"
         type="submit"
-        className="text-primary btn-2 bg-accent block w-80 rounded-lg px-6 py-3 text-center"
+        className="text-primary text-btn-2 bg-accent block w-80 rounded-lg px-6 py-3 text-center"
       >
         Continuar
       </Link>

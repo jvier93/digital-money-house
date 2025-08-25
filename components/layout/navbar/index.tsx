@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import NavbarActions from "./navbar-actions";
 import Logo from "@/components/layout/navbar/Logo";
+import UserAvatar from "./user-avatar";
 
 export default async function Navbar() {
   const session = await auth();
@@ -8,8 +9,15 @@ export default async function Navbar() {
   return (
     <nav className="bg-primary flex w-full items-center justify-between p-4">
       <Logo />
-
-      <NavbarActions isLoggedIn={isLoggedIn} />
+      <div className="flex gap-2">
+        {session?.user && (
+          <UserAvatar
+            firstName={session.user.firstName}
+            lastName={session.user.lastName}
+          />
+        )}
+        <NavbarActions isLoggedIn={isLoggedIn} />
+      </div>
     </nav>
   );
 }

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { InputField } from "@/components/auth/input-field";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { set } from "zod";
 
 export default function SignInPage() {
   const searchParams = useSearchParams();
@@ -74,7 +73,7 @@ export default function SignInPage() {
           />
           <button
             type="submit"
-            className="text-primary btn-2 bg-accent block w-80 rounded-lg px-6 py-3 text-center"
+            className="text-primary text-btn-2 bg-accent block w-80 rounded-lg px-6 py-3 text-center"
           >
             Continuar
           </button>
