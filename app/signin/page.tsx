@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { InputField } from "@/components/auth/input-field";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
-export default function SignInPage() {
+function SignInForm() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState<"email" | "password">("email");
   const [email, setEmail] = useState("");
@@ -17,7 +17,6 @@ export default function SignInPage() {
 
   const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const emailValue = formData.get("email") as string;
 
@@ -33,7 +32,6 @@ export default function SignInPage() {
 
   const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const password = formData.get("password") as string;
 
@@ -52,7 +50,7 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="bg-primary flex flex-1 flex-col items-center justify-center">
+    <>
       <h2 className="heading-2 mb-6 text-white">
         {step === "email"
           ? "¡Hola! Ingresá tu e-mail"
@@ -99,6 +97,16 @@ export default function SignInPage() {
           </button>
         </form>
       )}
+    </>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <main className="bg-primary flex flex-1 flex-col items-center justify-center">
+      <Suspense fallback={<div>Cargando...</div>}>
+        <SignInForm />
+      </Suspense>
     </main>
   );
 }
