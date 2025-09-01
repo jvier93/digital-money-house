@@ -1,6 +1,8 @@
 "use client";
 import Sidebar from "@/components/layout/sidebar";
 import { useSidebar } from "@/contexts/sidebar-context";
+import { Toaster } from "sonner";
+
 export default function DashboardLayout({
   children,
 }: {
@@ -24,6 +26,7 @@ export default function DashboardLayout({
           </aside>
         </div>
       )}
+      <Toaster richColors position="bottom-right" />
     </div>
   );
 }

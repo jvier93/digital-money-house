@@ -4,8 +4,9 @@ type LoginResponse = { token: string };
 type AccountDataResponse = {
   id: number;
   user_id: number;
-  cvu: number;
+  cvu: string;
   available_amount: number;
+  alias: string;
 };
 type UserDetailsResponse = {
   id: number;

@@ -1,10 +1,11 @@
 "use server";
 
 import { z } from "zod";
-import { FormState } from "../components/auth/signup-form";
-import { signOut } from "@/auth";
+import { SignUpFormStateType } from "../components/auth/signup-form";
+import { UserProfileFormStateType } from "@/components/dashboard/profile/user-profile-form";
+import { signOut, auth } from "@/auth";
 
-const schema = z
+const signupSchema = z
   .object({
     firstName: z.string().min(1, "El nombre es obligatorio"),
     lastName: z.string().min(1, "El apellido es obligatorio"),
@@ -45,8 +46,7 @@ export type SignupValues = {
 export async function signupAction(
   prevState: { values: SignupValues; errors: Record<string, string> },
   formData: FormData,
-): Promise<FormState> {
-  // Obtener los valores del form
+): Promise<SignUpFormStateType> {
   const values: SignupValues = {
     firstName: (formData.get("firstName") as string) || "",
     lastName: (formData.get("lastName") as string) || "",
@@ -58,7 +58,7 @@ export async function signupAction(
   };
 
   // Validar usando Zod
-  const parsed = schema.safeParse(values);
+  const parsed = signupSchema.safeParse(values);
 
   if (!parsed.success) {
     // Mantener los valores correctos y actualizar solo los errores
@@ -121,3 +121,98 @@ export async function signupAction(
 export async function logoutAction() {
   await signOut({ redirectTo: "/" });
 }
+
+const updateUserSchema = signupSchema.pick({
+  firstName: true,
+  lastName: true,
+  dni: true,
+  email: true,
+  phone: true,
+});
+
+export type UpdateUserValuesType = {
+  firstName: string;
+  lastName: string;
+  dni: string;
+  email: string;
+  phone: string;
+};
+
+export const updateUserAction = async (
+  prevState: { values: UpdateUserValuesType; errors: Record<string, string> },
+  formData: FormData,
+): Promise<UserProfileFormStateType> => {
+  const values: UpdateUserValuesType = {
+    firstName: (formData.get("firstName") as string) || "",
+    lastName: (formData.get("lastName") as string) || "",
+    dni: (formData.get("dni") as string) || "",
+    email: (formData.get("email") as string) || "",
+    phone: (formData.get("phone") as string) || "",
+  };
+
+  const parsed = updateUserSchema.safeParse(values);
+  if (!parsed.success) {
+    return {
+      values,
+      errors: parsed.error.flatten().fieldErrors as Record<string, string>,
+      success: false,
+    };
+  }
+
+  const session = await auth();
+
+  if (!session?.user?.id || !session.user.token) {
+    console.error("No se encontró la sesión del usuario o el token.");
+
+    return {
+      values,
+      errors: {},
+      success: false,
+    };
+  }
+
+  const userId = session.user.id;
+  const token = session.user.token;
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  try {
+    const res = await fetch(`${API_URL}/users/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({
+        firstname: values.firstName,
+        lastname: values.lastName,
+        dni: Number(values.dni),
+        email: values.email,
+        phone: values.phone,
+      }),
+    });
+
+    if (!res.ok) {
+      return {
+        values,
+        errors: {},
+        success: false,
+      };
+    }
+
+    return {
+      values,
+      errors: {},
+      success: true,
+    };
+  } catch (error: unknown) {
+    let message = "Error al conectar con el servidor";
+    if (error instanceof Error) message = error.message;
+    console.error(message);
+    return {
+      values,
+      errors: {},
+      success: false,
+    };
+  }
+};
