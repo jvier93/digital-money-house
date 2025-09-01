@@ -12,14 +12,14 @@ type ListProps = {
 
 function List({ children, className }: ListProps) {
   return (
-    <div className={clsx("rounded-xl bg-white px-8 shadow-md", className)}>
+    <div className={clsx(className, "rounded-xl bg-white px-8 shadow-md")}>
       {children}
     </div>
   );
 }
 
 type SectionProps = {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 };
 
@@ -44,18 +44,19 @@ List.Content = function ListContent({ children, className }: SectionProps) {
 
 // Item
 type ListItemProps = {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   onClick?: () => void;
   hoverable?: boolean;
   showSeparator?: boolean;
 };
 
-List.Item = function ListItem({ children }: ListItemProps) {
+List.Item = function ListItem({ children, className }: ListItemProps) {
   return (
     <div
       className={clsx(
-        "border-light border-r-0 border-b border-l-0 py-3 transition-colors",
+        "border-light border-r-0 border-b border-l-0 py-3",
+        className,
       )}
     >
       {children}

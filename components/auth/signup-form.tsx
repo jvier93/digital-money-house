@@ -5,13 +5,13 @@ import { signupAction, SignupValues } from "@/actions";
 import { InputField } from "@/components/auth/input-field";
 import { useRouter } from "next/navigation";
 
-export type FormState = {
+export type SignUpFormStateType = {
   values: SignupValues;
   errors: Record<string, string>;
   success: boolean;
 };
 
-const initialState: FormState = {
+const initialState: SignUpFormStateType = {
   values: {
     firstName: "",
     lastName: "",
