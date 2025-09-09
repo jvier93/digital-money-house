@@ -10,35 +10,54 @@ type ListProps = {
   className?: string;
 };
 
-function List({ children, className }: ListProps) {
+function Container({ children, className }: ListProps) {
   return (
-    <div className={clsx(className, "rounded-xl bg-white px-8 shadow-md")}>
+    <div className={clsx(className, "rounded-xl bg-white px-4 shadow-md")}>
       {children}
     </div>
   );
 }
 
 type SectionProps = {
-  children?: ReactNode;
+  children?: React.ReactNode;
   className?: string;
+  showBorder?: boolean; // opcional
 };
 
-// Header
-List.Header = function ListHeader({ children, className }: SectionProps) {
+//Headers
+//Header -> for text headers
+//CustomHeader -> for custom content headers (e.g., with buttons)
+
+Container.Header = function Header({
+  children,
+  className,
+  showBorder = false,
+}: SectionProps) {
   return (
     <div
-      className={clsx(
-        "border-light border-r-0 border-b border-l-0 py-3",
-        className,
-      )}
+      className={clsx("py-3", showBorder && "border-light border-b", className)}
     >
       <h3 className="text-primary heading-3">{children}</h3>
     </div>
   );
 };
 
+Container.CustomHeader = function CustomHeader({
+  children,
+  className,
+  showBorder = false,
+}: SectionProps) {
+  return (
+    <div
+      className={clsx("py-3", showBorder && "border-light border-b", className)}
+    >
+      {children}
+    </div>
+  );
+};
+
 // Content
-List.Content = function ListContent({ children, className }: SectionProps) {
+Container.Content = function Content({ children, className }: SectionProps) {
   return <div className={clsx("", className)}>{children}</div>;
 };
 
@@ -51,7 +70,7 @@ type ListItemProps = {
   showSeparator?: boolean;
 };
 
-List.Item = function ListItem({ children, className }: ListItemProps) {
+Container.Item = function Item({ children, className }: ListItemProps) {
   return (
     <div
       className={clsx(
@@ -65,15 +84,15 @@ List.Item = function ListItem({ children, className }: ListItemProps) {
 };
 
 // Footer
-List.Footer = function ListFooter({ children, className }: SectionProps) {
-  return <div className={clsx("py-3", className)}>{children}</div>;
+Container.Footer = function ListFooter({ children, className }: SectionProps) {
+  return <div className={clsx("text-body-2 py-3", className)}>{children}</div>;
 };
 
 type GreenIndicatorProps = {
   className?: string;
 };
 
-List.GreenIndicator = function GreenIndicator({
+Container.GreenIndicator = function GreenIndicator({
   className,
 }: GreenIndicatorProps) {
   return (
@@ -93,7 +112,7 @@ type LinkWithArrowProps = {
   className?: string;
 };
 
-List.LinkWithArrow = function LinkWithArrow({
+Container.LinkWithArrow = function LinkWithArrow({
   children,
   href,
   onClick,
@@ -118,4 +137,4 @@ List.LinkWithArrow = function LinkWithArrow({
   return <div onClick={onClick}>{content}</div>;
 };
 
-export default List;
+export default Container;

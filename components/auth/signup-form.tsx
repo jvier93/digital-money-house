@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import { signupAction, SignupValues } from "@/actions";
-import { InputField } from "@/components/auth/input-field";
+import { UncontrolledInputField } from "@/components/auth/uncontrolled-input-field";
 import { useRouter } from "next/navigation";
 
 export type SignUpFormStateType = {
@@ -54,7 +54,7 @@ export function SignupForm() {
       className="mx-auto grid max-w-3xl grid-cols-1 place-items-center gap-4 lg:grid-cols-2"
     >
       {fields.map(({ name, label, type }) => (
-        <InputField
+        <UncontrolledInputField
           key={name}
           name={name}
           label={label}

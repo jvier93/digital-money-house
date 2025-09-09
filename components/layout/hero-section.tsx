@@ -2,7 +2,7 @@ import React from "react";
 
 const HeroSection = () => {
   return (
-    <section className="">
+    <section role="region" aria-label="hero" className="">
       <div className="w-1/2 space-y-4 px-4 pt-10 pb-28 md:w-2/3 md:px-10 md:pt-20 xl:w-1/3 xl:px-20">
         <p className="text-2xl text-white md:text-4xl xl:text-7xl">
           De ahora en adelante, haces mas con tu dinero

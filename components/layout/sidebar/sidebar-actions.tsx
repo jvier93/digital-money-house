@@ -38,7 +38,9 @@ const SidebarActions = ({ mobile, onClose }: SidebarActionsProps) => {
       ))}
 
       <button
-        onClick={() => signOut()}
+        onClick={() => {
+          signOut();
+        }}
         className="text-primary/50 text-btn-4 rounded-lg py-2 text-left"
       >
         Cerrar sesión

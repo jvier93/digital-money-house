@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { InputField } from "@/components/auth/input-field";
+import { UncontrolledInputField } from "@/components/auth/uncontrolled-input-field";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
@@ -43,7 +43,7 @@ function SignInForm() {
     setError("");
 
     await signIn("credentials", {
-      redirectTo: "/",
+      redirectTo: "/dashboard",
       email,
       password,
     });
@@ -62,7 +62,7 @@ function SignInForm() {
           onSubmit={handleEmailSubmit}
           className="flex flex-col items-center gap-4"
         >
-          <InputField
+          <UncontrolledInputField
             name="email"
             label="Correo electrónico"
             type="email"
@@ -83,7 +83,7 @@ function SignInForm() {
           onSubmit={handlePasswordSubmit}
           className="flex flex-col items-center gap-4"
         >
-          <InputField
+          <UncontrolledInputField
             name="password"
             label="Contraseña"
             type="password"

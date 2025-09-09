@@ -117,3 +117,33 @@ export async function getAccountActivity(
 
   return result;
 }
+
+export type Card = {
+  account_id: number;
+  cod: number;
+  expiration_date: string;
+  first_last_name: string;
+  id: number;
+  number_id: number;
+};
+
+export async function getAccountCards(
+  accountId: number,
+  token: string,
+): Promise<Card[]> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/accounts/${accountId}/cards`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      next: { tags: ['user-cards'] }
+    },
+  );
+
+  if (!res.ok) throw new Error("Failed to fetch account cards");
+
+  return res.json();
+}
