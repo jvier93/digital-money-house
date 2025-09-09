@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivitySearchForm } from "@/components/dashboard/activity-search-form";
-import { ActivityListClient } from "@/components/dashboard/activity-list-client";
+import { ActivityPanel } from "@/components/dashboard/activity-panel";
 import { auth } from "@/auth";
 import { getAccountActivity } from "@/services";
 
@@ -19,7 +19,7 @@ const ActivitySummary = async () => {
   return (
     <>
       <ActivitySearchForm />
-      <ActivityListClient activity={activity} />
+      <ActivityPanel activity={activity} />
     </>
   );
 };

@@ -10,7 +10,8 @@ type ButtonProps = {
   children: React.ReactNode;
   type?: "button" | "submit" | "reset";
   size?: "sm" | "md" | "lg";
-  variant?: "accent" | "primary" | "light";
+  variant?: "accent" | "primary" | "light" | "outline";
+  className?: string;
 };
 
 const sizeClasses = {
@@ -23,6 +24,7 @@ const variantClasses = {
   accent: "bg-accent text-primary ",
   primary: "bg-primary text-white",
   light: "bg-light text-gray-800 ",
+  outline: "text-primary text-btn-3  no-underline shadow-none w-min ",
 };
 
 const Button = ({
@@ -33,15 +35,17 @@ const Button = ({
   type = "button",
   size = "md",
   variant = "accent",
+  className,
 }: ButtonProps) => {
   const classes = clsx(
-    "inline-flex items-center rounded-xl text-btn-2 w-full shadow-md",
+    "inline-flex  items-center cursor-pointer  rounded-xl text-btn-2 w-full shadow-md",
     sizeClasses[size],
     variantClasses[variant],
     {
       "justify-between": withArrow,
       "justify-center": !withArrow,
     },
+    className,
   );
 
   const content = (

@@ -1,9 +1,12 @@
 "use server";
 
 import { z } from "zod";
+import { revalidateTag } from "next/cache";
 import { SignUpFormStateType } from "../components/auth/signup-form";
 import { UserProfileFormStateType } from "@/components/dashboard/profile/user-profile-form";
 import { signOut, auth } from "@/auth";
+import { newCardFormValues } from "@/components/dashboard/cards/new/new-card-form";
+import { getAccountCards } from "@/services";
 
 const signupSchema = z
   .object({
@@ -216,3 +219,93 @@ export const updateUserAction = async (
     };
   }
 };
+
+export async function deleteCardAction(cardId: number) {
+  const session = await auth();
+
+  if (!session?.user?.accountId || !session.user.token) {
+    throw new Error("No se encontró la sesión del usuario o el token");
+  }
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const accountId = session.user.accountId;
+  const token = session.user.token;
+
+  try {
+    const res = await fetch(
+      `${API_URL}/accounts/${accountId}/cards/${cardId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: token,
+        },
+      },
+    );
+
+    if (!res.ok) {
+      throw new Error("Error al eliminar la tarjeta");
+    }
+
+    // Revalidate the cards cache using tag
+    revalidateTag("user-cards");
+
+    return { success: true };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Error al eliminar la tarjeta");
+  }
+}
+
+export async function saveCardAction(values: newCardFormValues) {
+  const session = await auth();
+
+  if (!session?.user?.accountId || !session.user.token) {
+    throw new Error("No se encontró la sesión del usuario o el token");
+  }
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const accountId = session.user.accountId;
+  const token = session.user.token;
+
+  try {
+    // Verificar límite de tarjetas
+    const currentCards = await getAccountCards(accountId, token);
+    if (currentCards.length >= 10) {
+      throw new Error("Has alcanzado el límite máximo de 10 tarjetas");
+    }
+
+    // Convertir fecha de MM/YY a MM/YYYY
+    const [month, shortYear] = values.expiry.split("/");
+    const fullYear = `20${shortYear}`;
+    const formattedExpiry = `${month}/${fullYear}`;
+
+    const res = await fetch(`${API_URL}/accounts/${accountId}/cards`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify({
+        cod: Number(values.cvc),
+        expiration_date: formattedExpiry,
+        first_last_name: values.name,
+        number_id: Number(values.number),
+      }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Error al guardar la tarjeta");
+    }
+
+    const data = await res.json();
+    return { success: true, data };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Error al procesar la tarjeta");
+  }
+}

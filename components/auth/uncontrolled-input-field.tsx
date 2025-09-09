@@ -8,7 +8,13 @@ interface Props {
   value?: string;
 }
 
-export function InputField({ name, label, type, error, value }: Props) {
+export function UncontrolledInputField({
+  name,
+  label,
+  type,
+  error,
+  value,
+}: Props) {
   return (
     <div className="flex w-80 flex-col gap-1">
       {error && <p className="text-error">{error}</p>}

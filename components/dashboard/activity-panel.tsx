@@ -1,24 +1,24 @@
 "use client";
 
-import List from "@/components/ui/list";
+import Container from "@/components/ui/container";
 import { Transaction } from "@/services";
 import { getDayName } from "@/utils";
 
-type ActivityListClientProps = {
+type ActivityPanelProps = {
   activity: Transaction[];
 };
 
-export function ActivityListClient({ activity }: ActivityListClientProps) {
+export function ActivityPanel({ activity }: ActivityPanelProps) {
   return (
-    <List>
-      <List.Header>Tu actividad</List.Header>
+    <Container>
+      <Container.Header>Tu actividad</Container.Header>
 
-      <List.Content>
+      <Container.Content>
         {activity.map((item) => (
-          <List.Item key={item.id}>
+          <Container.Item key={item.id}>
             <div className="text-body-1 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <List.GreenIndicator />
+                <Container.GreenIndicator />
                 <p>{item.description}</p>
               </div>
               <div className="text-right">
@@ -38,15 +38,15 @@ export function ActivityListClient({ activity }: ActivityListClientProps) {
                 </p>
               </div>
             </div>
-          </List.Item>
+          </Container.Item>
         ))}
-      </List.Content>
+      </Container.Content>
 
-      <List.Footer>
-        <List.LinkWithArrow href="/dashboard/activity">
+      <Container.Footer>
+        <Container.LinkWithArrow href="/dashboard/activity">
           Ver toda tu actividad
-        </List.LinkWithArrow>
-      </List.Footer>
-    </List>
+        </Container.LinkWithArrow>
+      </Container.Footer>
+    </Container>
   );
 }

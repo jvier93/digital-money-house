@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { useEffect, useState } from "react";
-import List from "@/components/ui/list";
+import Container from "@/components/ui/container";
 import { updateUserAction, UpdateUserValuesType } from "@/actions";
 import { toast } from "sonner";
 import EditableField from "@/components/dashboard/profile/editable-field";
@@ -74,11 +74,11 @@ export default function UserProfileForm({
     { name: "phone", label: "Teléfono" },
   ];
   return (
-    <List>
-      <List.Header>Tus datos</List.Header>
-      <List.Content>
+    <Container>
+      <Container.Header>Tus datos</Container.Header>
+      <Container.Content>
         <form action={formAction}>
-          <List.Item>
+          <Container.Item>
             <EditableField
               name="email"
               label="Email"
@@ -87,10 +87,10 @@ export default function UserProfileForm({
               showIcon={false}
               onToggleEdit={toggleEdit}
             />
-          </List.Item>
+          </Container.Item>
 
           {fields.map(({ name, label }) => (
-            <List.Item key={name}>
+            <Container.Item key={name}>
               <EditableField
                 name={name}
                 label={label}
@@ -99,11 +99,11 @@ export default function UserProfileForm({
                 onToggleEdit={toggleEdit}
                 error={state.errors[name]}
               />
-            </List.Item>
+            </Container.Item>
           ))}
           <button type="submit" className="hidden" />
         </form>
-      </List.Content>
-    </List>
+      </Container.Content>
+    </Container>
   );
 }

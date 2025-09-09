@@ -16,7 +16,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="bg-accent w-full rounded-t-3xl px-4">
+    <section role="region" aria-label="services" className="bg-accent w-full rounded-t-3xl px-4">
       <div className="flex -translate-y-10 flex-col justify-center gap-4 xl:flex-row">
         {services.map((card) => (
           <ServiceCard
