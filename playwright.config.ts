@@ -8,31 +8,31 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
-    baseURL: "http://localhost:3000",
-    trace: "on-first-retry",
+    baseURL: "https://digital-money-house-mocha.vercel.app",
+    trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
   projects: [
     /* Test desktop viewports */
     {
       name: "desktop-chrome",
-      use: { 
+      use: {
         ...devices["Desktop Chrome"],
-        viewport: { width: 1280, height: 720 }
+        viewport: { width: 1280, height: 720 },
       },
     },
     {
       name: "desktop-firefox",
-      use: { 
+      use: {
         ...devices["Desktop Firefox"],
-        viewport: { width: 1280, height: 720 }
+        viewport: { width: 1280, height: 720 },
       },
     },
     {
       name: "desktop-safari",
-      use: { 
+      use: {
         ...devices["Desktop Safari"],
-        viewport: { width: 1280, height: 720 }
+        viewport: { width: 1280, height: 720 },
       },
     },
     /* Test tablet viewports */

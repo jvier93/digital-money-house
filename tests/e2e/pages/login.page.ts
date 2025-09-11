@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export class LoginPage {
   readonly page: Page;
@@ -7,6 +7,7 @@ export class LoginPage {
   readonly continueButton: Locator;
   readonly loginButton: Locator;
   readonly errorMessage: Locator;
+  readonly availableBalance: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +18,7 @@ export class LoginPage {
     this.errorMessage = page.getByText(
       "Credenciales incorrectas, inténtalo nuevamente.",
     );
+    this.availableBalance = page.locator("text=Dinero disponible");
   }
 
   async goto() {
