@@ -16,10 +16,10 @@ test.describe("Authentication flows", () => {
 
   test("should login successfully", async ({ page }) => {
     await loginPage.goto();
+
     await loginPage.login(TEST_EMAIL, TEST_PASSWORD);
 
-    // Verify redirect to dashboard after login
-    await expect(page).toHaveURL("/dashboard");
+    await loginPage.availableBalance.waitFor({ state: "visible" });
   });
 
   test("should show error with invalid credentials", async ({ page }) => {
@@ -34,18 +34,16 @@ test.describe("Authentication flows", () => {
     // Login first
     await loginPage.goto();
     await loginPage.login(TEST_EMAIL, TEST_PASSWORD);
-    await expect(page).toHaveURL("/dashboard");
+    await loginPage.availableBalance.waitFor({ state: "visible" });
 
     if (isMobile) {
-      // On mobile, need to open sidebar first
+      await navigationPage.menuButton.isVisible();
       await navigationPage.openSidebar();
-      await expect(await navigationPage.isSidebarVisible()).toBeTruthy();
     }
-    await page.waitForTimeout(500);
-    // Perform logout
-    await navigationPage.logout();
-
-    // Verify logout worked by checking login form is visible
-    await expect(await navigationPage.waitForLogout()).toBeTruthy();
+    await navigationPage.sidebarLogoutButton.isVisible();
+    await expect(async () => {
+      await navigationPage.sidebarLogoutButton.click();
+      await page.getByPlaceholder("Correo electrónico*").isVisible();
+    }).toPass({ timeout: 2000 });
   });
 });

@@ -37,6 +37,7 @@ export default function CardsList({ cards }: CardsListProps) {
             cards.map((card, index) => (
               <Container.Item
                 key={card.id}
+                data-testid="card-item"
                 className={index === cards.length - 1 ? "border-b-0" : ""}
               >
                 <div className="flex items-center justify-between">

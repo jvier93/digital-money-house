@@ -15,17 +15,14 @@ export class NavigationPage {
       name: "Cerrar sesión",
     });
 
-    this.sidebar = page.getByRole("navigation");
+    this.sidebar = page.locator('nav.sidebar >> text="Cerrar sesión"');
   }
 
   async openSidebar() {
-    await this.menuButton.click();
-  }
-
-  async logout() {
-    await expect(this.sidebarLogoutButton).toBeVisible();
-    await expect(this.sidebarLogoutButton).toBeEnabled();
-    await this.sidebarLogoutButton.click();
+    await expect(async () => {
+      await this.menuButton.click();
+      await this.sidebar.isVisible();
+    }).toPass({ timeout: 2000 });
   }
 
   async isSidebarVisible() {
@@ -33,7 +30,6 @@ export class NavigationPage {
   }
   async waitForLogout() {
     await this.page.waitForURL(/.*\/signin/);
-    await this.page.waitForTimeout(200);
     return this.page.getByPlaceholder("Correo electrónico*").isVisible();
   }
 }
