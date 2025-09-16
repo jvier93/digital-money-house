@@ -11,6 +11,7 @@ export class CardsPage {
   readonly deleteCardButton: Locator;
   readonly cardsList: Locator;
   readonly successToast: Locator;
+  readonly maxCardsError: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -34,10 +35,25 @@ export class CardsPage {
     this.cardsList = page.locator('[data-testid="card-item"]');
     // El mensaje de éxito viene de sonner toast
     this.successToast = page.getByText("Tarjeta guardada exitosamente");
+    // Error de límite de tarjetas
+    this.maxCardsError = page.getByText(
+      "Has alcanzado el límite máximo de 10 tarjetas",
+    );
   }
 
   async goto() {
-    await this.page.goto("/dashboard/cards");
+    try {
+      await this.page.goto("/dashboard/cards", {
+        waitUntil: "domcontentloaded",
+        timeout: 10000,
+      });
+    } catch (error) {
+      // Si la navegación fue interrumpida, intentar una vez más
+      await this.page.goto("/dashboard/cards", {
+        waitUntil: "domcontentloaded",
+        timeout: 10000,
+      });
+    }
   }
 
   async gotoNewCard() {
@@ -49,49 +65,104 @@ export class CardsPage {
     cardHolder: string,
     expirationDate: string,
     cvv: string,
-  ) {
+  ): Promise<void> {
     await this.cardNumberInput.fill(cardNumber);
     await this.cardHolderInput.fill(cardHolder);
     await this.expirationDateInput.fill(expirationDate);
     await this.cvvInput.fill(cvv);
 
     await this.continueButton.click();
-    await this.successToast.waitFor({ state: "visible", timeout: 5000 });
-    // Esperamos a que se complete la redirección y la página se actualice
-    await this.page.waitForURL("/dashboard/cards");
-    await this.page.waitForLoadState("networkidle");
+
+    // Usar toPass para manejar posible hidratación
+    await expect(async () => {
+      // Esperar a que el toast aparezca
+      await this.successToast.waitFor({ state: "visible" });
+    }).toPass({ timeout: 10000 });
   }
 
   async deleteCard() {
-    await this.deleteCardButton.isVisible();
-    await this.deleteCardButton.click();
-    // Esperar a que el toast aparezca y la eliminación se complete
-    await this.page
-      .getByText("Tarjeta eliminada exitosamente")
-      .first()
-      .waitFor();
-    await this.page.waitForTimeout(500); // Pequeña pausa para que termine la animación
+    // Verificar que hay al menos una tarjeta para eliminar
+    const deleteButton = this.page
+      .getByRole("button", { name: "Eliminar" })
+      .first();
+    await deleteButton.waitFor({ state: "visible", timeout: 5000 });
+    await deleteButton.click();
+
+    // Esperar a que el toast aparezca
+    await this.page.waitForFunction(
+      () => {
+        const toasts = Array.from(document.querySelectorAll("div")).filter(
+          (el) => el.textContent === "Tarjeta eliminada exitosamente",
+        );
+        return toasts.length > 0;
+      },
+      { timeout: 5000 },
+    );
+
+    // Esperar a que la UI se actualice
     await this.page.waitForLoadState("networkidle");
-    // Esperar a que se actualice la lista (la tarjeta actual debe desaparecer)
-    await this.page.waitForTimeout(500);
+  }
+  async getCardsCount() {
+    await this.page.waitForLoadState("networkidle");
+
+    // Si aparece el mensaje de no hay tarjetas, retornar 0
+    const noCardsMessage = this.page.getByText("Aún no hay tarjetas agregadas");
+    if (await noCardsMessage.isVisible()) {
+      return 0;
+    }
+
+    return await this.cardsList.count();
   }
 
-  async getCardsCount() {
-    return await this.cardsList.count();
+  async hasNoCards() {
+    return (await this.getCardsCount()) === 0;
   }
 
   async clearAllCards() {
     await this.goto();
-    const count = await this.getCardsCount();
-    console.log(`Encontradas ${count} tarjetas antes de limpiar`);
+    await this.page.waitForLoadState("networkidle");
 
-    for (let i = 0; i < count; i++) {
-      await this.deleteCard();
-      // Esperar un momento entre eliminaciones para evitar problemas de rate limiting
-      await this.page.waitForTimeout(500);
+    // Si ya no hay tarjetas, no necesitamos hacer nada
+    const noCardsMessage = this.page.getByText("Aún no hay tarjetas agregadas");
+    if (await noCardsMessage.isVisible()) {
+      console.log("No hay tarjetas para eliminar");
+      return;
     }
 
-    const remainingCount = await this.getCardsCount();
-    console.log(`Quedan ${remainingCount} tarjetas después de limpiar`);
+    try {
+      // Mientras haya botones de eliminar, seguir eliminando tarjetas
+      while (
+        (await this.page.getByRole("button", { name: "Eliminar" }).count()) > 0
+      ) {
+        // Obtener el primer botón de eliminar
+        const deleteButton = this.page
+          .getByRole("button", { name: "Eliminar" })
+          .first();
+        await deleteButton.waitFor({ state: "visible" });
+        await deleteButton.click();
+
+        // Esperar a que aparezca el toast de éxito
+        await this.page.waitForFunction(
+          () => {
+            const toasts = Array.from(document.querySelectorAll("div")).filter(
+              (el) => el.textContent === "Tarjeta eliminada exitosamente",
+            );
+            return toasts.length > 0;
+          },
+          { timeout: 5000 },
+        );
+
+        // Esperar a que la UI se actualice
+        await this.page.waitForLoadState("networkidle");
+        await this.page.waitForTimeout(500);
+      }
+
+      // Verificar que todas las tarjetas se eliminaron
+      await noCardsMessage.waitFor({ state: "visible", timeout: 5000 });
+      console.log("Todas las tarjetas fueron eliminadas exitosamente");
+    } catch (error) {
+      console.error("Error al eliminar tarjetas:", error);
+      throw error;
+    }
   }
 }

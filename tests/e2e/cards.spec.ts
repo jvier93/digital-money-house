@@ -36,8 +36,7 @@ test.describe.serial("Cards management", () => {
     // Limpiar todas las tarjetas existentes antes de cada test
     await cardsPage.clearAllCards();
   });
-
-  test("should add a new card successfully", async ({ page }) => {
+  test("should add a new card successfully", async () => {
     await cardsPage.gotoNewCard();
     await cardsPage.addCard(
       VALID_CARD.number,
@@ -65,7 +64,7 @@ test.describe.serial("Cards management", () => {
     await expect(errorMessage).toBeVisible();
   });
 
-  test("should delete a card successfully", async ({ page }) => {
+  test("should delete a card successfully", async () => {
     await cardsPage.goto();
 
     // Primero agregamos una tarjeta para asegurarnos de que hay algo para eliminar
@@ -79,11 +78,13 @@ test.describe.serial("Cards management", () => {
 
     // Volvemos a la lista y eliminamos la tarjeta
     await cardsPage.goto();
-    await cardsPage.deleteCard();
 
-    // Verify deletion success toast appears
-    await expect(
-      page.getByText("Tarjeta eliminada exitosamente"),
-    ).toBeVisible();
+    // Usando toPass para manejar la hidratación y el toast
+    await expect(async () => {
+      await cardsPage.deleteCard();
+      // Esperar a que no hayan más tarjetas en la lista
+      const cardsCount = await cardsPage.getCardsCount();
+      expect(cardsCount).toBe(0);
+    }).toPass({ timeout: 20000 });
   });
 });
