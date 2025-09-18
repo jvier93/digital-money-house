@@ -14,6 +14,7 @@
   --color-secondary: #3a393e;
   --color-light: #eeeaea;
   --color-error: #ee3838;
+  --color-gray: #cecece;
 
   /* Typography */
   --font-sans: var(--font-open-sans);

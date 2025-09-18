@@ -1,51 +1,58 @@
 "use client";
 
 import Container from "@/components/ui/container";
-import { Transaction } from "@/services";
-import { getDayName } from "@/utils";
+import { Pagination } from "@/components/ui/pagination";
+import { EmptyState } from "@/components/ui/empty-state";
+import { ActivityItem } from "./activity-item";
+import { ActivityPanelProps } from "./types";
 
-type ActivityPanelProps = {
-  activity: Transaction[];
-};
+export function ActivityPanel({
+  activity,
+  currentPage,
+  totalPages,
+  onPageChange,
+  showViewAllLink = true,
+  emptyStateMessage,
+}: ActivityPanelProps) {
+  const hasActivity = activity.length > 0;
+  const showPagination =
+    totalPages && onPageChange && currentPage && hasActivity;
+  const showViewAll = showViewAllLink && hasActivity;
 
-export function ActivityPanel({ activity }: ActivityPanelProps) {
   return (
     <Container>
+      {/* Header */}
       <Container.Header>Tu actividad</Container.Header>
 
+      {/* Content */}
       <Container.Content>
-        {activity.map((item) => (
-          <Container.Item key={item.id}>
-            <div className="text-body-1 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Container.GreenIndicator />
-                <p>{item.description}</p>
-              </div>
-              <div className="text-right">
-                <p>
-                  {item.amount >= 0 ? "" : "-"}
-                  {new Intl.NumberFormat("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                    currencyDisplay: "narrowSymbol",
-                  }).format(Math.abs(item.amount))}
-                </p>
-
-                <p className="text-primary/50 capitalize">
-                  {getDayName(item.dated)}
-                </p>
-              </div>
-            </div>
-          </Container.Item>
-        ))}
+        {hasActivity ? (
+          activity.map((transaction) => (
+            <ActivityItem key={transaction.id} transaction={transaction} />
+          ))
+        ) : (
+          <EmptyState
+            type={emptyStateMessage?.includes("Error") ? "error" : "empty"}
+            message={emptyStateMessage || "No hay actividad reciente"}
+          />
+        )}
       </Container.Content>
 
+      {/* Footer */}
       <Container.Footer>
-        <Container.LinkWithArrow href="/dashboard/activity">
-          Ver toda tu actividad
-        </Container.LinkWithArrow>
+        {showPagination ? (
+          <div className="flex justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+            />
+          </div>
+        ) : showViewAll ? (
+          <Container.LinkWithArrow href="/dashboard/activity">
+            Ver toda tu actividad
+          </Container.LinkWithArrow>
+        ) : null}
       </Container.Footer>
     </Container>
   );

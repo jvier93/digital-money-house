@@ -270,13 +270,13 @@ export async function saveCardAction(values: newCardFormValues) {
   const token = session.user.token;
 
   try {
-    // Verificar límite de tarjetas
+    // Check card limit
     const currentCards = await getAccountCards(accountId, token);
     if (currentCards.length >= 10) {
       throw new Error("Has alcanzado el límite máximo de 10 tarjetas");
     }
 
-    // Convertir fecha de MM/YY a MM/YYYY
+    // Convert date from MM/YY to MM/YYYY
     const [month, shortYear] = values.expiry.split("/");
     const fullYear = `20${shortYear}`;
     const formattedExpiry = `${month}/${fullYear}`;

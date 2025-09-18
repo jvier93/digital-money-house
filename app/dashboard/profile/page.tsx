@@ -5,6 +5,7 @@ import React from "react";
 import { auth } from "@/auth";
 import UserInfoClipboard from "@/components/dashboard/profile/user-info-clipboard";
 import Button from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 const page = async () => {
   const session = await auth();
@@ -27,7 +28,13 @@ const page = async () => {
         phone={userProfile.phone}
         dni={userProfile.dni}
       />
-      <Button variant="accent" size="lg" withArrow href="/dashboard">
+      <Button
+        variant="accent"
+        size="lg"
+        className="!justify-between"
+        icon={<ArrowRight />}
+        href="/dashboard"
+      >
         Gestioná los medios de pago
       </Button>
       <UserInfoClipboard alias={accountData.alias} cvu={accountData.cvu} />

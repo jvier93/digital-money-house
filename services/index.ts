@@ -139,11 +139,37 @@ export async function getAccountCards(
         "Content-Type": "application/json",
         Authorization: `${token}`,
       },
-      next: { tags: ['user-cards'] }
+      next: { tags: ["user-cards"] },
     },
   );
 
   if (!res.ok) throw new Error("Failed to fetch account cards");
+
+  return res.json();
+}
+
+export async function getTransactionById(
+  accountId: number,
+  transactionId: number,
+  token: string,
+): Promise<Transaction> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/accounts/${accountId}/transactions/${transactionId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+    },
+  );
+
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error("Transaction not found");
+    }
+    throw new Error("Failed to fetch transaction");
+  }
 
   return res.json();
 }
