@@ -104,6 +104,7 @@ export default function UserProfileForm({
           <button type="submit" className="hidden" />
         </form>
       </Container.Content>
+      <Container.Footer>{""}</Container.Footer>
     </Container>
   );
 }

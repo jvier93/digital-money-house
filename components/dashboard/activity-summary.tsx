@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivitySearchForm } from "@/components/dashboard/activity-search-form";
+import { ActivitySearchForm } from "@/components/dashboard/activity/activity-search-form";
 import { ActivityPanel } from "@/components/dashboard/activity-panel";
 import { auth } from "@/auth";
 import { getAccountActivity } from "@/services";

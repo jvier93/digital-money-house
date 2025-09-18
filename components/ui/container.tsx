@@ -12,7 +12,9 @@ type ListProps = {
 
 function Container({ children, className }: ListProps) {
   return (
-    <div className={clsx(className, "rounded-xl bg-white px-4 shadow-md")}>
+    <div
+      className={clsx(className, "rounded-xl bg-white px-4 shadow-md md:px-8")}
+    >
       {children}
     </div>
   );
