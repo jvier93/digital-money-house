@@ -7,9 +7,9 @@ import { getTransactionById } from "@/services";
 import { notFound } from "next/navigation";
 
 type ActivityPageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const ActivityPage = async ({ params }: ActivityPageProps) => {
@@ -19,7 +19,8 @@ const ActivityPage = async ({ params }: ActivityPageProps) => {
     return notFound();
   }
 
-  const transactionId = parseInt(params.id);
+  const { id } = await params;
+  const transactionId = parseInt(id);
 
   if (isNaN(transactionId)) {
     return notFound();
