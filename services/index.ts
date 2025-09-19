@@ -173,3 +173,35 @@ export async function getTransactionById(
 
   return res.json();
 }
+
+export type DepositRequest = {
+  amount: number;
+  dated: string;
+  destination: string;
+  origin: string;
+};
+
+export async function depositMoney(
+  accountId: number,
+  depositData: DepositRequest,
+  token: string,
+): Promise<{ success: boolean; message?: string }> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/accounts/${accountId}/deposits`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify(depositData),
+    },
+  );
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to process deposit");
+  }
+
+  return { success: true };
+}

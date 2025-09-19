@@ -16,7 +16,7 @@ const ActivityPage = async () => {
   );
 
   return (
-    <main className="bg-light flex-1 space-y-4 p-4 md:px-10 lg:px-20">
+    <main className="bg-light flex-1 space-y-4 p-4 md:px-10 md:py-20 lg:px-20">
       <CurrentPageBreadcrumb
         currentPageTitle="Tu actividad"
         href="/dashboard/activity"
