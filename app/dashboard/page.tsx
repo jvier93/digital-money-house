@@ -7,7 +7,7 @@ import Button from "@/components/ui/button";
 
 const DashboardPage = () => {
   return (
-    <main className="bg-light flex-1 space-y-4 p-4 md:px-10 lg:px-20">
+    <main className="bg-light flex-1 space-y-4 p-4 md:px-10 md:py-20 lg:px-20">
       <CurrentPageBreadcrumb currentPageTitle="Inicio" href="/dashboard" />
       <WalletBalance />
       <div className="space-y-4 lg:flex lg:gap-4 lg:space-y-0">

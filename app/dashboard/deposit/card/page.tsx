@@ -1,0 +1,31 @@
+import React from "react";
+import { auth } from "@/auth";
+import { getAccountCards } from "@/services";
+import { redirect } from "next/navigation";
+import CurrentPageBreadcrumb from "@/components/dashboard/current-page-breadcrumb";
+import DepositCardFlow from "@/components/dashboard/deposit/deposit-card-flow";
+
+const DepositCardPage = async () => {
+  const session = await auth();
+
+  if (!session?.user?.accountId || !session.user.token) {
+    redirect("/signin");
+  }
+
+  const cards = await getAccountCards(
+    session.user.accountId,
+    session.user.token,
+  );
+
+  return (
+    <main className="bg-light flex-1 space-y-4 p-4 md:px-10 md:py-20 lg:px-20">
+      <CurrentPageBreadcrumb
+        currentPageTitle="Cargar dinero"
+        href="/dashboard/deposit"
+      />
+      <DepositCardFlow cards={cards} />
+    </main>
+  );
+};
+
+export default DepositCardPage;

@@ -11,6 +11,8 @@ type CardsListProps = {
 };
 
 export default function CardsList({ cards }: CardsListProps) {
+  console.log(cards);
+
   const handleDeleteCard = async (cardId: number) => {
     try {
       await deleteCardAction(cardId);
@@ -49,6 +51,8 @@ export default function CardsList({ cards }: CardsListProps) {
                   </div>
                   <Button
                     variant="outline"
+                    fullWidth={false}
+                    size="sm"
                     onClick={() => handleDeleteCard(card.id)}
                   >
                     Eliminar
