@@ -30,7 +30,11 @@ export function ActivitySearchForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative">
+    <form
+      onSubmit={handleSubmit}
+      className="relative"
+      data-testid="activity-search-form"
+    >
       <div className="text-body-1 relative rounded-xl bg-white py-2 shadow-md">
         <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
         <input
@@ -40,6 +44,7 @@ export function ActivitySearchForm() {
           placeholder="Buscar en tu actividad"
           className="w-full py-2 pr-4 pl-10 outline-none focus:border-transparent"
           disabled={isPending}
+          data-testid="activity-search-input"
         />
       </div>
     </form>

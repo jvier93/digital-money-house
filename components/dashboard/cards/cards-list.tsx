@@ -1,13 +1,13 @@
 "use client";
 
 import Container from "@/components/ui/container";
-import { Card } from "@/services";
+import { CardType } from "@/services";
 import { deleteCardAction } from "@/actions";
 import { toast } from "sonner";
 import Button from "@/components/ui/button";
 
 type CardsListProps = {
-  cards: Card[];
+  cards: CardType[];
 };
 
 export default function CardsList({ cards }: CardsListProps) {
@@ -36,12 +36,8 @@ export default function CardsList({ cards }: CardsListProps) {
               </span>
             </Container.Item>
           ) : (
-            cards.map((card, index) => (
-              <Container.Item
-                key={card.id}
-                data-testid="card-item"
-                className={index === cards.length - 1 ? "border-b-0" : ""}
-              >
+            cards.map((card) => (
+              <Container.Item key={card.id} data-testid="card-item">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Container.GreenIndicator />

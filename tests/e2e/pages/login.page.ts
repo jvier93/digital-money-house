@@ -1,5 +1,15 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 
+/**
+ * Page Object Model for Authentication Pages
+ *
+ * Handles login flow and error states for the Digital Money House application.
+ * Supports two-step login process:
+ * 1. Email input → Continue
+ * 2. Password input → Login
+ *
+ * Also provides error state verification for invalid credentials.
+ */
 export class LoginPage {
   readonly page: Page;
   readonly emailInput: Locator;

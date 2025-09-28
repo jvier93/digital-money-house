@@ -36,7 +36,7 @@ export function ControlledInputField<T extends FieldValues>({
             inputMode="numeric"
             maxLength={maxLenght}
             type={type}
-            placeholder={`${label}*`}
+            placeholder={`${label}`}
             className="rounded-lg bg-white px-6 py-3 text-black shadow-md"
           />
         )}

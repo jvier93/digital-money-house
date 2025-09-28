@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
-    baseURL: "https://digital-money-house-mocha.vercel.app",
+    baseURL: "http://localhost:3000",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },

@@ -12,7 +12,7 @@ type ButtonProps = {
   variant?: "accent" | "primary" | "light" | "outline" | "gray";
   fullWidth?: boolean;
   className?: string;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const sizeClasses = {
   sm: "px-4 py-2 text-btn-1",
@@ -39,6 +39,7 @@ const Button = ({
   variant = "accent",
   fullWidth = true,
   className,
+  ...rest
 }: ButtonProps) => {
   const classes = clsx(
     "inline-flex items-center justify-center cursor-pointer rounded-xl shadow-md gap-2",
@@ -64,7 +65,7 @@ const Button = ({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} className={classes} {...rest}>
       {content}
     </button>
   );

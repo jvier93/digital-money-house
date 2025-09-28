@@ -5,6 +5,7 @@ import ActivityCard from "@/components/dashboard/activity-card";
 import Button from "@/components/ui/button";
 import { getTransactionById } from "@/services";
 import { notFound } from "next/navigation";
+import DepositSuccessActions from "@/components/dashboard/deposit-success-actions";
 
 type ActivityPageProps = {
   params: Promise<{
@@ -40,12 +41,7 @@ const ActivityPage = async ({ params }: ActivityPageProps) => {
           href="/dashboard/activity"
         />
         <ActivityCard transaction={transaction} />
-        <div className="flex flex-col gap-4 md:flex-row">
-          <Button>Descargar comprobante</Button>
-          <Button href="/dashboard" variant="gray">
-            Ir al inicio
-          </Button>
-        </div>
+        <DepositSuccessActions />
       </main>
     );
   } catch (error) {

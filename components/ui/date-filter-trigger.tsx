@@ -23,6 +23,7 @@ export function DateFilterTrigger({
         size="sm"
         icon={<SlidersHorizontal className="h-4 w-4" />}
         className={clsx("h-full gap-10", className)}
+        data-testid="date-filter-desktop"
       >
         Filtrar
       </Button>
@@ -37,6 +38,7 @@ export function DateFilterTrigger({
       variant="outline"
       size="sm"
       className="underline"
+      data-testid="date-filter-mobile"
     >
       Filtrar
     </Button>

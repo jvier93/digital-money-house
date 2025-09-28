@@ -1,8 +1,8 @@
 "use client";
 
+import Button from "@/components/ui/button";
 import Card from "@/components/ui/card";
-import { Plus, ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight, CirclePlus } from "lucide-react";
 
 export default function AddCardSection() {
   return (
@@ -13,19 +13,19 @@ export default function AddCardSection() {
         </h2>
       </Card.Header>
       <Card.Content>
-        <Link href="/dashboard/cards/new" className="block">
-          <div className="text-accent text-btn-2 flex cursor-pointer items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="bg-accent flex h-8 w-8 items-center justify-center rounded-full">
-                <Plus className="text-primary h-4 w-4" />
-              </div>
-              <span>Nueva tarjeta</span>
-            </div>
-            <ArrowRight className="h-5 w-5" />
+        <Button
+          href="/dashboard/cards/new"
+          variant="primary"
+          size="xl"
+          className={`!text-accent !justify-between`}
+          icon={<ArrowRight className="h-8 w-8"></ArrowRight>}
+        >
+          <div className="flex gap-2">
+            <CirclePlus className="h-8 w-8" />
+            <span className="heading-2">Nueva tarjeta</span>
           </div>
-        </Link>
+        </Button>
       </Card.Content>
-      <Card.Footer>{""}</Card.Footer>
     </Card>
   );
 }

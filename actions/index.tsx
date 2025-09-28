@@ -331,19 +331,20 @@ export async function depositMoneyAction(values: DepositFormValues) {
 
     // Create deposit request
     const depositRequest = {
-      amount: values.amount,
+      amount: Number(values.amount),
       dated: new Date().toISOString(),
-      destination: accountData.cvu, // Account's CVU
+      destination: accountData.cvu,
       origin: `Tarjeta terminada en ****${values.cardId.toString().slice(-4)}`,
     };
 
-    await depositMoney(accountId, depositRequest, token);
+    const transaction = await depositMoney(accountId, depositRequest, token);
 
     // Revalidate account data to refresh balance
     revalidateTag("user-account");
 
-    return { success: true };
+    return { success: true, transaction };
   } catch (error) {
+    console.error("Error al procesar el depósito:", error);
     if (error instanceof Error) {
       throw new Error(error.message);
     }
