@@ -118,7 +118,7 @@ export async function getAccountActivity(
   return result;
 }
 
-export type Card = {
+export type CardType = {
   account_id: number;
   cod: number;
   expiration_date: string;
@@ -130,7 +130,7 @@ export type Card = {
 export async function getAccountCards(
   accountId: number,
   token: string,
-): Promise<Card[]> {
+): Promise<CardType[]> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/accounts/${accountId}/cards`,
     {
@@ -172,4 +172,34 @@ export async function getTransactionById(
   }
 
   return res.json();
+}
+
+export type DepositRequest = {
+  amount: number;
+  dated: string;
+  destination: string;
+  origin: string;
+};
+
+export async function depositMoney(
+  accountId: number,
+  depositData: DepositRequest,
+  token: string,
+): Promise<Transaction> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/accounts/${accountId}/deposits`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify(depositData),
+    },
+  );
+
+  if (!res.ok) throw new Error("Failed to process deposit");
+
+  const transaction: Transaction = await res.json();
+  return transaction;
 }

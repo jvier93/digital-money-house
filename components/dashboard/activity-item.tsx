@@ -11,21 +11,21 @@ type ActivityItemProps = {
 
 export function ActivityItem({ transaction }: ActivityItemProps) {
   return (
-    <Link href={`/dashboard/activity/${transaction.id}`}>
-      <Container.Item className="cursor-pointer">
+    <Container.Item>
+      <Link href={`/dashboard/activity/${transaction.id}`} data-testid="transaction-item">
         <div className="text-body-1 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Container.GreenIndicator />
-            <p>{transaction.description}</p>
+            <p data-testid="transaction-description">{transaction.description}</p>
           </div>
           <div className="text-right">
-            <p>{formatCurrency(transaction.amount)}</p>
-            <p className="text-primary/50 capitalize">
+            <p data-testid="transaction-amount">{formatCurrency(transaction.amount)}</p>
+            <p className="text-primary/50 capitalize" data-testid="transaction-date">
               {getDayName(transaction.dated)}
             </p>
           </div>
         </div>
-      </Container.Item>
-    </Link>
+      </Link>
+    </Container.Item>
   );
 }

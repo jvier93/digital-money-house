@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 // Icons from Lucide React
-import { X, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 // Custom UI components
 import Container from "@/components/ui/container";
 import { useDateFilter } from "@/contexts/date-filter-context";
@@ -70,8 +70,11 @@ export function DateFilterModal() {
     closeFilterModal();
   };
 
-  // Handle clearing filters (reset to "all")
+  // Handle clearing filters (reset to "all" and update URL)
   const handleClear = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("filter");
+    router.push(`/dashboard/activity?${params.toString()}`);
     setSelectedFilter("all");
     closeFilterModal();
   };

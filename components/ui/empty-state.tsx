@@ -32,7 +32,7 @@ export function EmptyState({ type = "empty", message }: EmptyStateProps) {
   };
 
   return (
-    <div className="py-12">
+    <div className="py-12" data-testid="empty-state">
       <div className="flex flex-col items-center justify-center gap-2 text-center">
         {renderContent()}
       </div>

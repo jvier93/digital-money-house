@@ -1,5 +1,19 @@
 import { Page, Locator, expect } from "@playwright/test";
 
+/**
+ * Page Object Model for Navigation and Menu Functionality
+ *
+ * Handles navigation elements and interactions across the application:
+ * - Mobile hamburger menu interactions
+ * - Sidebar navigation for authenticated users
+ * - Logout functionality from sidebar
+ * - Responsive navigation behavior
+ *
+ * Device Support:
+ * - Mobile: Hamburger menu with collapsible sidebar
+ * - Desktop: Always-visible navigation elements
+ * - Handles both authenticated and unauthenticated states
+ */
 export class NavigationPage {
   readonly page: Page;
   readonly menuButton: Locator;

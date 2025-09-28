@@ -29,7 +29,8 @@ export function InteractiveActivityPanel({
   // States for filters and pagination
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-  const pageSize = 1;
+
+  const pageSize = 10;
 
   // Get current filter from URL
   const currentFilter = (searchParams.get("filter") as DateFilterType) || "all";
@@ -134,7 +135,7 @@ export function InteractiveActivityPanel({
       <Container>
         <ActivityPanelHeader />
 
-        <Container.Content>
+        <Container.Content data-testid="transactions-container">
           {paginatedItems.length > 0 ? (
             paginatedItems.map((transaction) => (
               <ActivityItem key={transaction.id} transaction={transaction} />
@@ -149,7 +150,7 @@ export function InteractiveActivityPanel({
 
         <Container.Footer>
           {totalPages > 1 && (
-            <div className="flex justify-center">
+            <div className="flex justify-center" data-testid="pagination-container">
               <Pagination
                 currentPage={page}
                 totalPages={totalPages}

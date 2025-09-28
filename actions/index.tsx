@@ -6,7 +6,7 @@ import { SignUpFormStateType } from "../components/auth/signup-form";
 import { UserProfileFormStateType } from "@/components/dashboard/profile/user-profile-form";
 import { signOut, auth } from "@/auth";
 import { newCardFormValues } from "@/components/dashboard/cards/new/new-card-form";
-import { getAccountCards } from "@/services";
+import { getAccountCards, getAccountData, depositMoney } from "@/services";
 
 const signupSchema = z
   .object({
@@ -307,5 +307,68 @@ export async function saveCardAction(values: newCardFormValues) {
       throw new Error(error.message);
     }
     throw new Error("Error al procesar la tarjeta");
+  }
+}
+
+export type DepositFormValues = {
+  cardId: number;
+  amount: number;
+};
+
+export async function depositMoneyAction(values: DepositFormValues) {
+  const session = await auth();
+
+  if (!session?.user?.accountId || !session.user.token) {
+    throw new Error("No se encontró la sesión del usuario o el token");
+  }
+
+  const accountId = session.user.accountId;
+  const token = session.user.token;
+
+  try {
+    // Get account data to get CVU
+    const accountData = await getAccountData(token);
+
+    // Create deposit request
+    const depositRequest = {
+      amount: Number(values.amount),
+      dated: new Date().toISOString(),
+      destination: accountData.cvu,
+      origin: `Tarjeta terminada en ****${values.cardId.toString().slice(-4)}`,
+    };
+
+    const transaction = await depositMoney(accountId, depositRequest, token);
+
+    // Revalidate account data to refresh balance
+    revalidateTag("user-account");
+
+    return { success: true, transaction };
+  } catch (error) {
+    console.error("Error al procesar el depósito:", error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Error al procesar el depósito");
+  }
+}
+
+export async function getCardsAction() {
+  const session = await auth();
+
+  if (!session?.user?.accountId || !session.user.token) {
+    throw new Error("No se encontró la sesión del usuario o el token");
+  }
+
+  try {
+    const cards = await getAccountCards(
+      session.user.accountId,
+      session.user.token,
+    );
+    return cards;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Error al obtener las tarjetas");
   }
 }

@@ -57,21 +57,21 @@ function ActivityCard({ transaction }: ActivityCardProps) {
 
       <Card.Content>
         <div className="border-secondary text-accent text-body-1 space-y-4 border-t px-2 pt-2">
-          <p className="text-body-1 text-light md:hidden">
+          <p className="text-body-1 text-gray md:hidden">
             {formatDate(transaction.dated)}
           </p>
           <div>
-            <p className="text-light">{getTransactionType()}</p>
+            <p className="text-gray">{getTransactionType()}</p>
             <p className="heading-2">{formatCurrency(transaction.amount)}</p>
           </div>
 
           <div>
-            <p className="text-light">Le transferiste a</p>
+            <p className="text-gray">Le transferiste a</p>
             <p className="heading-2">{getRecipient()}</p>
           </div>
 
           <div>
-            <p className="text-light">Número de operación</p>
+            <p className="text-gray">Número de operación</p>
             <p className="">{transaction.id}</p>
           </div>
         </div>

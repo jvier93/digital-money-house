@@ -23,7 +23,7 @@ function Container({ children, className }: ListProps) {
 type SectionProps = {
   children?: React.ReactNode;
   className?: string;
-  showBorder?: boolean; // opcional
+  showBorder?: boolean;
 };
 
 //Headers
@@ -64,7 +64,7 @@ Container.Content = function Content({ children, className }: SectionProps) {
 };
 
 // Item
-type ListItemProps = {
+type ContainerItemProps = React.HTMLAttributes<HTMLDivElement> & {
   children?: ReactNode;
   className?: string;
   onClick?: () => void;
@@ -72,13 +72,18 @@ type ListItemProps = {
   showSeparator?: boolean;
 };
 
-Container.Item = function Item({ children, className }: ListItemProps) {
+Container.Item = function Item({
+  children,
+  className,
+  ...props
+}: ContainerItemProps) {
   return (
     <div
       className={clsx(
-        "border-light border-r-0 border-b border-l-0 py-3",
+        "border-light border-r-0 border-b border-l-0 py-3 last:border-b-0",
         className,
       )}
+      {...props}
     >
       {children}
     </div>
@@ -86,8 +91,22 @@ Container.Item = function Item({ children, className }: ListItemProps) {
 };
 
 // Footer
-Container.Footer = function ListFooter({ children, className }: SectionProps) {
-  return <div className={clsx("text-body-2 py-3", className)}>{children}</div>;
+Container.Footer = function ListFooter({
+  children,
+  className,
+  showBorder = true,
+}: SectionProps) {
+  return (
+    <div
+      className={clsx(
+        "text-body-2 border-light border-r-0 border-l-0 py-3",
+        showBorder && "border-t",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 };
 
 type GreenIndicatorProps = {
