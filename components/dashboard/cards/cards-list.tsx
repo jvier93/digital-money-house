@@ -11,8 +11,6 @@ type CardsListProps = {
 };
 
 export default function CardsList({ cards }: CardsListProps) {
-  console.log(cards);
-
   const handleDeleteCard = async (cardId: number) => {
     try {
       await deleteCardAction(cardId);

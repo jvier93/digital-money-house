@@ -2,7 +2,6 @@ import React from "react";
 import CurrentPageBreadcrumb from "@/components/dashboard/current-page-breadcrumb";
 import { auth } from "@/auth";
 import ActivityCard from "@/components/dashboard/activity-card";
-import Button from "@/components/ui/button";
 import { getTransactionById } from "@/services";
 import { notFound } from "next/navigation";
 import DepositSuccessActions from "@/components/dashboard/deposit-success-actions";
