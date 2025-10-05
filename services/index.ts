@@ -203,3 +203,22 @@ export async function depositMoney(
   const transaction: Transaction = await res.json();
   return transaction;
 }
+
+export type Service = {
+  id: number;
+  name: string;
+};
+
+export async function getPaymentServices(): Promise<Service[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace("/api", "") || "";
+  const res = await fetch(`${baseUrl}/service`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch payment services");
+
+  return res.json();
+}
