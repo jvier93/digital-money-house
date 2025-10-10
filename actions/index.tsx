@@ -6,7 +6,12 @@ import { SignUpFormStateType } from "../components/auth/signup-form";
 import { UserProfileFormStateType } from "@/components/dashboard/profile/user-profile-form";
 import { signOut, auth } from "@/auth";
 import { newCardFormValues } from "@/components/dashboard/cards/new/new-card-form";
-import { getAccountCards, getAccountData, depositMoney } from "@/services";
+import {
+  getAccountCards,
+  getAccountData,
+  depositMoney,
+  payService,
+} from "@/services";
 
 const signupSchema = z
   .object({
@@ -339,8 +344,9 @@ export async function depositMoneyAction(values: DepositFormValues) {
 
     const transaction = await depositMoney(accountId, depositRequest, token);
 
-    // Revalidate account data to refresh balance
+    // Revalidate account data to refresh balance and activity
     revalidateTag("user-account");
+    revalidateTag("user-activity");
 
     return { success: true, transaction };
   } catch (error) {
@@ -349,6 +355,45 @@ export async function depositMoneyAction(values: DepositFormValues) {
       throw new Error(error.message);
     }
     throw new Error("Error al procesar el depósito");
+  }
+}
+
+type PayServiceFormValues = {
+  amount: number;
+  serviceName: string;
+};
+
+export async function payServiceAction(values: PayServiceFormValues) {
+  const session = await auth();
+
+  if (!session?.user?.accountId || !session.user.token) {
+    throw new Error("No se encontró la sesión del usuario o el token");
+  }
+
+  const accountId = session.user.accountId;
+  const token = session.user.token;
+
+  try {
+    // Create service payment request
+    const paymentRequest = {
+      amount: -Math.abs(Number(values.amount)), // Negative for payment
+      dated: new Date().toISOString(),
+      description: `Pago de ${values.serviceName}`,
+    };
+
+    const transaction = await payService(accountId, paymentRequest, token);
+
+    // Revalidate account data to refresh balance and activity
+    revalidateTag("user-account");
+    revalidateTag("user-activity");
+
+    return { success: true, transaction };
+  } catch (error) {
+    console.error("Error al procesar el pago del servicio:", error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Error al procesar el pago del servicio");
   }
 }
 

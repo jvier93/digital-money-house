@@ -12,8 +12,6 @@ type SuccessStepProps = {
 };
 
 export default function SuccessStep({ transaction }: SuccessStepProps) {
-  console.log(transaction);
-
   return (
     <div className="space-y-4">
       <Card
