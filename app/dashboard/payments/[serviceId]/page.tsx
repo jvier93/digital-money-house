@@ -5,11 +5,10 @@ import CurrentPageBreadcrumb from "@/components/dashboard/current-page-breadcrum
 import ServicePaymentFlow from "@/components/dashboard/payments/service-payment-flow";
 
 type Props = {
-  params: {
+  params: Promise<{
     serviceId: string;
-  };
+  }>;
 };
-
 const Page = async ({ params }: Props) => {
   const session = await auth();
   const { serviceId } = await params;
