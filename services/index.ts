@@ -41,6 +41,7 @@ export async function getAccountData(
       "Content-Type": "application/json",
       Authorization: token,
     },
+    next: { tags: ["user-account"] },
   });
 
   if (!res.ok) throw new Error("Failed to fetch account info");
@@ -72,8 +73,8 @@ export type Transaction = {
   account_id: number;
   type: string;
   description: string;
-  origin: string;
-  destination: string;
+  origin?: string;
+  destination?: string;
   amount: number;
   dated: string;
 };
@@ -94,6 +95,7 @@ export async function getAccountActivity(
         "Content-Type": "application/json",
         Authorization: `${token}`,
       },
+      next: { tags: ["user-activity"] },
     },
   );
 
@@ -209,6 +211,13 @@ export type Service = {
   name: string;
 };
 
+export type ServiceDetail = {
+  id: number;
+  name: string;
+  date: string;
+  invoice_value: string;
+};
+
 export async function getPaymentServices(): Promise<Service[]> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace("/api", "") || "";
   const res = await fetch(`${baseUrl}/service`, {
@@ -221,4 +230,49 @@ export async function getPaymentServices(): Promise<Service[]> {
   if (!res.ok) throw new Error("Failed to fetch payment services");
 
   return res.json();
+}
+
+export async function getPaymentServiceById(
+  serviceId: number,
+): Promise<ServiceDetail> {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace("/api", "") || "";
+  const res = await fetch(`${baseUrl}/service/${serviceId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch payment service details");
+
+  return res.json();
+}
+
+export type ServicePaymentRequest = {
+  amount: number;
+  dated: string;
+  description: string;
+};
+
+export async function payService(
+  accountId: number,
+  paymentData: ServicePaymentRequest,
+  token: string,
+): Promise<Transaction> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/accounts/${accountId}/transactions`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify(paymentData),
+    },
+  );
+
+  if (!res.ok) throw new Error("Failed to process service payment");
+
+  const transaction: Transaction = await res.json();
+  return transaction;
 }

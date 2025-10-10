@@ -1,22 +1,17 @@
 import React from "react";
 import { auth } from "@/auth";
 import { getAccountCards, getAccountData } from "@/services";
-import { redirect } from "next/navigation";
 import CurrentPageBreadcrumb from "@/components/dashboard/current-page-breadcrumb";
 import DepositCardFlow from "@/components/dashboard/deposit/deposit-card-flow";
 
 const DepositCardPage = async () => {
   const session = await auth();
 
-  if (!session?.user?.accountId || !session.user.token) {
-    redirect("/signin");
-  }
-
   const cards = await getAccountCards(
-    session.user.accountId,
-    session.user.token,
+    session!.user.accountId,
+    session!.user.token,
   );
-  const token = session.user.token;
+  const token = session!.user.token;
   const cvu = (await getAccountData(token)).cvu;
 
   return (
