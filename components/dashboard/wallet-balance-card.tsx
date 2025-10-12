@@ -13,11 +13,14 @@ const WalletBalanceCard = ({ ammount }: WalletBalanceCardProps) => {
     <Card>
       <Card.Header>
         <div className="flex w-full justify-end gap-2">
-          <Link href="/dashboard" className="text-xs font-normal underline">
+          <Link
+            href="/dashboard/cards"
+            className="text-xs font-normal underline"
+          >
             Ver tarjetas
           </Link>
           <Link
-            href="/dashboard"
+            href="/dashboard/profile"
             className="text-normal text-xs font-normal underline"
           >
             Ver CVU

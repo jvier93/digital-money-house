@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/layout/sidebar";
 import { useSidebar } from "@/contexts/sidebar-context";
+import { useAutoLogout } from "@/hooks/use-auto-logout";
 import { Toaster } from "sonner";
 
 export default function DashboardLayout({
@@ -9,6 +10,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const { isOpen, close } = useSidebar();
+  useAutoLogout(); // Hook para logout automático después de 30 minutos
 
   return (
     <div className="flex flex-1">

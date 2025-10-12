@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import { signupAction, SignupValues } from "@/actions";
-import { UncontrolledInputField } from "@/components/auth/uncontrolled-input-field";
+import { UncontrolledInputField } from "@/components/ui/uncontrolled-input-field";
 import { useRouter } from "next/navigation";
 
 export type SignUpFormStateType = {

@@ -11,10 +11,10 @@ const DashboardPage = () => {
       <CurrentPageBreadcrumb currentPageTitle="Inicio" href="/dashboard" />
       <WalletBalance />
       <div className="space-y-4 lg:flex lg:gap-4 lg:space-y-0">
-        <Button size="lg" variant="accent" href="/dashboard">
+        <Button size="lg" variant="accent" href="/dashboard/deposit">
           Ingresar dinero
         </Button>
-        <Button size="lg" variant="accent" href="/dashboard">
+        <Button size="lg" variant="accent" href="/dashboard/payments">
           Pago de servicios
         </Button>
       </div>
