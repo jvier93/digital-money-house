@@ -76,7 +76,6 @@ export default function PaymentErrorStep({
           type="button"
           fullWidth={false}
           variant={"accent"}
-          className={"md:hidden"}
           data-testid="account-number-continue-button-mobile"
         >
           {getButtonText()}

@@ -27,7 +27,7 @@ const SidebarActions = ({ mobile, onClose }: SidebarActionsProps) => {
           href={link.href}
           className={clsx(
             {
-              "font-extrabold": pathname === link.href,
+              "font-extrabold": pathname.includes(link.href),
             },
             "text-primary text-btn-4 py-2",
           )}

@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { UncontrolledInputField } from "@/components/auth/uncontrolled-input-field";
+import { UncontrolledInputField } from "@/components/ui/uncontrolled-input-field";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import SessionExpiredWarning from "@/components/auth/session-expired-warning";
 
 function SignInForm() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState<"email" | "password">("email");
   const [email, setEmail] = useState("");
+  const expired = searchParams.get("expired");
   const [error, setError] = useState(
     searchParams.get("error")
       ? "Credenciales incorrectas, inténtalo nuevamente."
@@ -56,6 +58,8 @@ function SignInForm() {
           ? "¡Hola! Ingresá tu e-mail"
           : "Ingresa tu contraseña"}
       </h2>
+
+      {expired && <SessionExpiredWarning />}
 
       {step === "email" && (
         <form

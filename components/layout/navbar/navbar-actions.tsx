@@ -1,9 +1,9 @@
 "use client";
 
 import { Menu } from "lucide-react";
-import Link from "next/link";
 import { useSidebar } from "@/contexts/sidebar-context";
 import { usePathname } from "next/navigation";
+import Button from "@/components/ui/button";
 
 type NavbarActionsProps = {
   isLoggedIn: boolean;
@@ -26,21 +26,27 @@ export default function NavbarActions({ isLoggedIn }: NavbarActionsProps) {
       )}
 
       {showSignIn && (
-        <Link
+        <Button
           href="/signin"
-          className="bg-primary text-text-btn-1 border-accent text-accent rounded border px-6 py-2 font-bold"
+          variant="outline"
+          size="sm"
+          fullWidth={false}
+          className="border-accent !text-accent !rounded-md border"
         >
           Ingresar
-        </Link>
+        </Button>
       )}
 
       {showSignUp && (
-        <Link
+        <Button
           href="/signup"
-          className="bg-accent text-text-btn-1 rounded px-6 py-2 font-bold"
+          className="!rounded-md"
+          variant="accent"
+          size="sm"
+          fullWidth={false}
         >
           Crear cuenta
-        </Link>
+        </Button>
       )}
     </div>
   );

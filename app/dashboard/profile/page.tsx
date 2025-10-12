@@ -33,7 +33,7 @@ const page = async () => {
         size="lg"
         className="!justify-between"
         icon={<ArrowRight />}
-        href="/dashboard"
+        href="/dashboard/deposit"
       >
         Gestioná los medios de pago
       </Button>
