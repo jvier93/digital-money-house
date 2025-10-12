@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 type UserAvatarProps = {
   firstName: string;
@@ -12,14 +13,17 @@ const UserAvatar = ({ firstName, lastName }: UserAvatarProps) => {
   const initials = getInitials(firstName, lastName);
 
   return (
-    <div className="heading-3 flex items-center gap-2">
+    <Link
+      href="/dashboard"
+      className="heading-3 flex cursor-pointer items-center gap-2"
+    >
       <div className="bg-accent text-primary flex items-center justify-center rounded-xl px-2 py-1 font-bold">
         {initials}
       </div>
       <span className="text-light hidden lg:inline">
         Hola, {firstName} {lastName}
       </span>
-    </div>
+    </Link>
   );
 };
 

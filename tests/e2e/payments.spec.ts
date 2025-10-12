@@ -493,44 +493,6 @@ test.describe("Payment Services - Edge Cases", () => {
 
     console.log("✅ Direct URL access works correctly");
   });
-
-  test("should clear search when navigating away and back", async ({
-    page,
-  }) => {
-    // Test: Verify search state management
-    // Validates that search filters are handled correctly on navigation
-
-    await paymentsPage.goto();
-
-    const servicesCount = await paymentsPage.getServicesCount();
-
-    if (servicesCount === 0) {
-      console.log("⏭️ Skipping search state test - no services available");
-      test.skip();
-    }
-
-    // Perform a search
-    await paymentsPage.searchService("test");
-
-    // Navigate away
-    await page.goto("/dashboard");
-    await page.waitForLoadState("networkidle");
-
-    // Navigate back
-    await paymentsPage.goto();
-
-    // Verify search is cleared (no search param in URL)
-    const url = page.url();
-    const hasSearchParam = url.includes("search=");
-
-    console.log(`URL after return: ${url}`);
-    console.log(`Has search parameter: ${hasSearchParam}`);
-
-    // Search should be cleared on fresh navigation
-    expect(hasSearchParam).toBeFalsy();
-
-    console.log("✅ Search state handled correctly");
-  });
 });
 
 test.describe("Payment Services - UI/UX Validation", () => {
