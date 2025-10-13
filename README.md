@@ -24,8 +24,6 @@
 - [Docker](#-docker)
 - [Testing](#-testing)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Variables de Entorno](#-variables-de-entorno)
-- [Autor](#-autor)
 
 ## 🎯 Sobre el Proyecto
 
